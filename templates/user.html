@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/static/css/user.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>User Dashboard</h2>
+            <ul>
+                <li><a href="#book-ticket">Book Ticket</a></li>
+                <li><a href="/view_bookings">View Bookings</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+            <button class="back-to-home" onclick="goToHome()">Back to Home</button>
+        </div>
+        <div class="main-content">
+            <section id="book-ticket">
+                <h3>Book a New Ticket</h3>
+                <form id="booking-form" method="POST" action="/book_ticket" onsubmit="return handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="train-select">Select Train</label>
+                        <select id="train-select" name="train-number" required>
+                            <option value="" disabled selected>Select a train</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="departure-station">Departure Station</label>
+                        <input type="text" id="departure-station" name="departure-station" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arrival-station">Arrival Station</label>
+                        <input type="text" id="arrival-station" name="arrival-station" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="departure-time">Departure Time</label>
+                        <input type="time" id="departure-time" name="departure-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arrival-time">Arrival Time</label>
+                        <input type="time" id="arrival-time" name="arrival-time" required>
+                    </div>
+                    <button type="submit">Book Ticket</button>
+                </form>                
+                <div id="ticket-confirmation" style="display:none;">
+                    <h4>Ticket Confirmation</h4>
+                    <p>Your ticket has been successfully booked.</p>
+                    <p>Happy Journey!</p>
+                    <button id="print-ticket" onclick="printTicket()">Print Ticket</button>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/get_trains')
+            .then(response => response.json())
+            .then(data => {
+                const trainSelect = document.getElementById('train-select');
+                data.forEach(train => {
+                    const option = document.createElement('option');
+                    option.value = train.train_number;
+                    option.textContent = `${train.train_name} (${train.departure_station} to ${train.arrival_station})`;
+                    trainSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching train data:', error));
+        });
+        function goToHome() {
+            window.location.href = "/";
+        }
+        function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            fetch('/book_ticket', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('ticket-confirmation').style.display = 'block';
+                } else {
+                    alert('Ticket booking failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error booking ticket:', error);
+                alert('successfullybooked a ticket.');
+            });
+        }
+        function printTicket() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

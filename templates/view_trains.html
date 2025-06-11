@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Trains</title>
+    <link rel="stylesheet" href="/static/css/view_trains.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>View Trains</h1>
+        <a href="/admin" class="back-button">Back to Admin Dashboard</a> <!-- Add this line for navigation -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Train Number</th>
+                    <th>Train Name</th>
+                    <th>Departure Station</th>
+                    <th>Arrival Station</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for train in trains %}
+                <tr>
+                    <td>{{ train[1] }}</td>
+                    <td>{{ train[2] }}</td>
+                    <td>{{ train[3] }}</td>
+                    <td>{{ train[4] }}</td>
+                    <td>{{ train[5] }}</td>
+                    <td>{{ train[6] }}</td>
+                    <td>{{ train[7] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/user" class="back-button">Back to Admin Dashboard</a> <!-- Another button at the bottom -->
+    </div>
+</body>
+</html>
+

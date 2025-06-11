@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Schedule</title>
+    <link rel="stylesheet" href="/static/css/view_schedule.css">
+</head>
+<body>
+    <h2>Train Schedule</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Train Number</th>
+                <th>Train Name</th>
+                <th>Departure Station</th>
+                <th>Arrival Station</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for train in schedule %}
+            <tr>
+                <td>{{ train[0] }}</td>
+                <td>{{ train[1] }}</td>
+                <td>{{ train[2] }}</td>
+                <td>{{ train[3] }}</td>
+                <td>{{ train[4] }}</td>
+                <td>{{ train[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
